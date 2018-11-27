@@ -9,12 +9,32 @@
       router
     >
 
-      <el-menu-item index="/">
-        <i class="el-icon-menu"></i>
-        <span slot="title">Home</span>
+      <el-menu-item
+        v-for="(item,index) in config"
+        :key="index"
+        :index="item.url"
+      >
+        <i :class="item.icon"></i>
+        <span slot="title">{{item.title}}</span>
       </el-menu-item>
+      
+      <el-submenu
+        v-for="(item,index) in config"
+        :key="index"
+      >
+        <template slot="title">
+          <i :class="item.icon"></i>
+          <span>{{item.title}}</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item v-for="(item,index) in item.children" :key="index" :index="item.url">
+            <i :class="item.icon"></i>
+            <span slot="title">{{item.title}}</span>
+          </el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
 
-      <el-menu-item index="/Demo/DemoOne">
+      <!-- <el-menu-item index="/Demo/DemoOne">
         <i class="el-icon-document"></i>
         <span slot="title">Demo</span>
       </el-menu-item>
@@ -37,15 +57,22 @@
       <el-menu-item index="/Other">
         <i class="el-icon-goods"></i>
         <span slot="title">Other</span>
-      </el-menu-item>
+      </el-menu-item> -->
 
     </el-menu>
   </div>
 </template>
 
 <script>
+import config from '~/assets/config.js'
   export default {
+    data () {
+      return {
+        config
+      }
+    }
   }
+  
 </script>
 
 <style scoped lang="scss">
