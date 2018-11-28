@@ -13,7 +13,7 @@
       <el-menu-item index="/Demo/DemoFour">Demo04</el-menu-item>
       <el-menu-item index="/Demo/DemoFive">Demo05</el-menu-item>
       <el-menu-item index="/Demo/DemoSix">Demo06</el-menu-item>
-      </el-menu> 
+      </el-menu>
     </div>
 
     <div class="demo-content">
@@ -90,7 +90,7 @@ import axios from 'axios'
                     endDate = endDate.substring(0,10)
                     item['endDate'] = endDate
                 // console.log(endDate)
-              } 
+              }
             this.dataArr = dataRequestArr
             }
           })
@@ -98,37 +98,40 @@ import axios from 'axios'
           console.log(err);
         });
       },
-      tableRowClassName(item) {
 
-        var item = item.row.endDate
-
+      tableRowClassName(row) {
+        let item = row.row.endDate
         if (item != null) {
-          var oldTime = new Date(item).getTime()  //装date
+          let Time = new Date(item).getTime()  //转date
           // console.log(oldTime)
-          //    进行比较
 
-          if ( oldTime <= new Date().getTime()) {
-            console.log('111')
-            return 'warning-row';
+          if ( Time <= new Date().getTime()) {  //和当前时间作对比
+            // console.log(Time)
+            return 'warning-row'
+          } else {
+            return ''
           }
         }
+        // console.log(item)
       }
     }
   }
 </script>
 
-<style scoped lang='scss'>
+<style lang='scss'>
 .demo-nav {
   background-color: #fff;
   margin: 20px;
-  .title-text {
-    color: #111;
-    padding: 20px;
-  }
 }
 .demo-content{
   width: 80%;
-  margin: 3% auto;
+  margin: 3% auto 5% auto;
+  /*&:after {*/
+    /*content: '';*/
+    /*width: 20px;*/
+    /*height: 80px;*/
+    /*background-color: orangered;*/
+  /*}*/
 }
 .demo-table-expand {
     font-size: 0;
@@ -143,10 +146,6 @@ import axios from 'axios'
     width: 50%;
   }
   .el-table .warning-row {
-    background: rgba(255, 81, 0, 0.418);
-  }
-
-  .el-table .success-row {
-    background: #f0f9eb;
+    background: #fde9d8;
   }
 </style>

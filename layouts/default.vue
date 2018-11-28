@@ -1,13 +1,13 @@
 <template>
-  <div>
+  <div class="box">
     <div class="nav">
       <Nav/>
     </div>
-    
-    <div class="content">
+
+    <div class="general-content">
       <nuxt/>
     </div>
-    
+
   </div>
 </template>
 <script>
@@ -64,13 +64,17 @@ html {
   color: #fff;
   background-color: #35495e;
 }
+.box {
+  width: 100%;
+  background-color: #f8f1ff;
+}
 .nav {
-  display: inline-block; 
+  display: inline-block;
   width: 13%;
   height: 100%;
   position: fixed;
 }
-.content {
+.general-content {
   display: inline-block;
   width: 87%;
   height: 100%;

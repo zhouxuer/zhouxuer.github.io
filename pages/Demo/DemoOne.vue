@@ -13,10 +13,10 @@
       <el-menu-item index="/Demo/DemoFour">Demo04</el-menu-item>
       <el-menu-item index="/Demo/DemoFive">Demo05</el-menu-item>
       <el-menu-item index="/Demo/DemoSix">Demo06</el-menu-item>
-      </el-menu> 
+      </el-menu>
     </div>
 
-    <div class="content">
+    <div class="demo-content">
 
       <!--v-model="dataValue" (input数据绑定)
       @keyup.enter="addData"(enter点击事件)-->
@@ -80,11 +80,10 @@ export default {
 <style scoped lang="scss">
 $window-width:80%;
   .demo-nav {
-    width: $window-width + 20%;
-    background-color: #f8f1ff;
-    padding: 20px;
+    background-color: #fff;
+    margin: 20px;
   }
-  .content {
+  .demo-content {
     width: $window-width - 20%;
     background-color: azure;
     border: 1px solid #a6a6a6;
@@ -92,7 +91,7 @@ $window-width:80%;
     display: block;
     margin: 0 auto;
     position: relative;
-    top: 150px;
+    top: 100px;
     text-align: center;
     .content-data {
       width: $window-width;
