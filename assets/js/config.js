@@ -17,6 +17,26 @@ export default [
                icon: 'el-icon-star-off',
                title: 'demo02',
                url: '/Demo/DemoTwo'
+            },
+            {
+              icon: 'el-icon-star-off',
+              title: 'demo02',
+              url: '/Demo/DemoThree'
+            },
+            {
+              icon: 'el-icon-star-off',
+              title: 'demo02',
+              url: '/Demo/DemoFour'
+            },
+            {
+              icon: 'el-icon-star-off',
+              title: 'demo02',
+              url: '/Demo/DemoFive'
+            },
+            {
+              icon: 'el-icon-star-off',
+              title: 'demo02',
+              url: '/Demo/DemoSix'
             }
         ]
     },
