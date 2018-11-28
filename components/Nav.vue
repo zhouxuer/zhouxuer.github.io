@@ -9,62 +9,32 @@
       router
     >
 
-      <el-menu-item
-        v-for="(item,index) in config"
-        :key="index"
-        :index="item.url"
-      >
-        <i :class="item.icon"></i>
-        <span slot="title">{{item.title}}</span>
-      </el-menu-item>
-      
-      <el-submenu
-        v-for="(item,index) in config"
-        :key="index"
-      >
-        <template slot="title">
+      <template  v-for="(item,index) in config">
+
+        <el-menu-item v-if="!item.children" :key="index" :index="item.url">
           <i :class="item.icon"></i>
-          <span>{{item.title}}</span>
-        </template>
-        <el-menu-item-group>
+          <span slot="title">{{item.title}}</span>
+        </el-menu-item> 
+
+        <el-submenu v-else :key="index" :index="item.title">
+          <template slot="title">
+            <i :class="item.icon"></i>
+            <span>{{item.title}}</span>
+          </template>
           <el-menu-item v-for="(item,index) in item.children" :key="index" :index="item.url">
             <i :class="item.icon"></i>
             <span slot="title">{{item.title}}</span>
           </el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
+        </el-submenu>
 
-      <!-- <el-menu-item index="/Demo/DemoOne">
-        <i class="el-icon-document"></i>
-        <span slot="title">Demo</span>
-      </el-menu-item>
-
-      <el-menu-item index="/Works">
-        <i class="el-icon-picture"></i>
-        <span slot="title">Works</span>
-      </el-menu-item>
-
-      <el-menu-item index="/AboutMe">
-        <i class="el-icon-setting"></i>
-        <span slot="title">AboutMe</span>
-      </el-menu-item>
-
-      <el-menu-item index="/ContactMe">
-        <i class="el-icon-phone-outline"></i>
-        <span slot="title">ContactMe</span>
-      </el-menu-item>
-
-      <el-menu-item index="/Other">
-        <i class="el-icon-goods"></i>
-        <span slot="title">Other</span>
-      </el-menu-item> -->
+      </template>
 
     </el-menu>
   </div>
 </template>
 
 <script>
-import config from '~/assets/config.js'
+import config from '~/assets/js/config.js'
   export default {
     data () {
       return {
@@ -94,6 +64,9 @@ import config from '~/assets/config.js'
     top: 30%;
     background-color: #ffe2ef;
     .el-menu-item {
+      margin: 8% 0 8% 10%;
+    }
+    .el-submenu {
       margin: 8% 0 8% 10%;
     }
   }
