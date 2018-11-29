@@ -17,6 +17,7 @@
     "element-ui": "^2.4.11",
     "less": "^3.8.1",
     "less-loader": "^4.1.0",
+    "moment": "^2.22.2",
     "nuxt": "^2.0.0"
   },
   "devDependencies": {

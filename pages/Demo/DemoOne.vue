@@ -3,8 +3,7 @@
     <DemoNav/>
 
     <div class="demo-content">
-
-      <!--v-model="dataValue" (input数据绑定)
+      <!-- v-model="dataValue" (input数据绑定)
       @keyup.enter="addData"(enter点击事件)-->
       <input
         type="text"
@@ -41,8 +40,6 @@ export default {
   data () {
     return {
       layout: 'DemoNav',
-      activeIndex: '1',
-      activeIndex2: '1',
       listArr: [],
       dataValue: ''
     }
@@ -57,7 +54,7 @@ export default {
       }
     },
     deleteData (dataValue) { // 删除数据
-      let index = this.listArr.indexOf(dataValue) // 根据下标获取当前元素
+      let index = this.listArr.indexOf(dataValue) // 方法可返回某个指定的字符串值在字符串中首次出现的位置。
       this.listArr.splice(index, 1) // 删除此下标对应的一个元素
     },
     deleteAll () { // 清除数据

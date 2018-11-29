@@ -63,12 +63,6 @@ import config from '~/assets/js/config.js'
     position: absolute;
     top: 30%;
     background-color: #ffe2ef;
-    .el-menu-item {
-      margin: 8% 0 8% 10%;
-    }
-    .el-submenu {
-      margin: 8% 0 8% 10%;
-    }
   }
 }
 </style>
