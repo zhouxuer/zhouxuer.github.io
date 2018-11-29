@@ -66,7 +66,7 @@ html {
 }
 .box {
   width: 100%;
-  background-color: #f8f1ff;
+  background-color: #f3e7ff;
 }
 .nav {
   display: inline-block;
@@ -78,7 +78,7 @@ html {
   display: inline-block;
   width: 87%;
   height: 100%;
-  background-color: #f8f1ff;
+  background-color: #f3e7ff;
   position: absolute;
   right: 0;
 }

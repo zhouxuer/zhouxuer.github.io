@@ -1,20 +1,6 @@
 <template>
   <div class="box">
-    <div class="demo-nav">
-      <el-menu
-        :default-active="$route.path"
-        class="el-menu-demo"
-        mode="horizontal"
-        router
-      >
-      <el-menu-item index="/Demo/DemoOne">Demo01</el-menu-item>
-      <el-menu-item index="/Demo/DemoTwo">Demo02</el-menu-item>
-      <el-menu-item index="/Demo/DemoThree">Demo03</el-menu-item>
-      <el-menu-item index="/Demo/DemoFour">Demo04</el-menu-item>
-      <el-menu-item index="/Demo/DemoFive">Demo05</el-menu-item>
-      <el-menu-item index="/Demo/DemoSix">Demo06</el-menu-item>
-      </el-menu>
-    </div>
+    <DemoNav/>
 
     <div class="demo-content">
 
@@ -47,7 +33,11 @@
 </template>
 
 <script>
+import DemoNav from '~/components/DemoNav.vue'
 export default {
+  components: {
+    DemoNav
+  },
   data () {
     return {
       layout: 'DemoNav',
@@ -79,10 +69,6 @@ export default {
 
 <style scoped lang="scss">
 $window-width:80%;
-  .demo-nav {
-    background-color: #fff;
-    margin: 20px;
-  }
   .demo-content {
     width: $window-width - 20%;
     background-color: azure;

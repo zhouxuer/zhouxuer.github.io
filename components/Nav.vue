@@ -38,7 +38,7 @@ import config from '~/assets/js/config.js'
   export default {
     data () {
       return {
-        config
+        config: config.navData
       }
     }
   }

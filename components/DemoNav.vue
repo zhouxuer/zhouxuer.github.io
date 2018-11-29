@@ -1,17 +1,17 @@
 <template>
-    <div class="nav">
+    <div class="demo-nav">
       <el-menu
         :default-active="$route.path"
         class="el-menu-demo"
         mode="horizontal"
         router
       >
-      <el-menu-item index="/Demo/DemoOne">Demo01</el-menu-item>
-      <el-menu-item index="/Demo/DemoTwo">Demo02</el-menu-item>
-      <el-menu-item index="/Demo/DemoThree">Demo03</el-menu-item>
-      <el-menu-item index="/Demo/DemoFour">Demo04</el-menu-item>
-      <el-menu-item index="/Demo/DemoFive">Demo05</el-menu-item>
-      <el-menu-item index="/Demo/DemoSix">Demo06</el-menu-item>
+      <el-menu-item index="/Demo/DemoOne">DemoOne</el-menu-item>
+      <el-menu-item index="/Demo/DemoTwo">DemoTwo</el-menu-item>
+      <el-menu-item index="/Demo/DemoThree">DemoThree</el-menu-item>
+      <el-menu-item index="/Demo/DemoFour">DemoFour</el-menu-item>
+      <el-menu-item index="/Demo/DemoFive">DemoFive</el-menu-item>
+      <el-menu-item index="/Demo/DemoSix">DemoSix</el-menu-item>
       </el-menu>  
     </div>
 </template>
@@ -22,10 +22,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$window-width:80%;
-  .nav {
-    width: $window-width + 20%;
-    background-color: #f8f1ff;
-    padding: 20px;
-  }
+.demo-nav {
+  background-color: #fff;
+  margin: 20px;
+}
 </style>

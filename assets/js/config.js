@@ -1,4 +1,5 @@
-export default [
+const httpUrl = 'https://gist.githubusercontent.com/JoshuaYang/37ed2ca102efe190315c94b695e5833e/raw/136ea13c39867b40757625ddd99714f66ff89a13/fakeData.json'
+const navData = [
     {
         icon: 'el-icon-menu',
         title: 'Home',
@@ -10,33 +11,33 @@ export default [
         children: [
             {
                 icon: 'el-icon-star-off',
-                title:'demo01',
+                title: 'demoOne',
                 url: '/Demo/DemoOne'
             },
             {
-               icon: 'el-icon-star-off',
-               title: 'demo02',
-               url: '/Demo/DemoTwo'
+                icon: 'el-icon-star-off',
+                title: 'demoTwo',
+                url: '/Demo/DemoTwo'
             },
             {
-              icon: 'el-icon-star-off',
-              title: 'demo02',
-              url: '/Demo/DemoThree'
+                icon: 'el-icon-star-off',
+                title: 'demoThree',
+                url: '/Demo/DemoThree'
             },
             {
-              icon: 'el-icon-star-off',
-              title: 'demo02',
-              url: '/Demo/DemoFour'
+                icon: 'el-icon-star-off',
+                title: 'demoFour',
+                url: '/Demo/DemoFour'
             },
             {
-              icon: 'el-icon-star-off',
-              title: 'demo02',
-              url: '/Demo/DemoFive'
+                icon: 'el-icon-star-off',
+                title: 'demoFive',
+                url: '/Demo/DemoFive'
             },
             {
-              icon: 'el-icon-star-off',
-              title: 'demo02',
-              url: '/Demo/DemoSix'
+                icon: 'el-icon-star-off',
+                title: 'demoSix',
+                url: '/Demo/DemoSix'
             }
         ]
     },
@@ -56,8 +57,13 @@ export default [
         url: '/ContactMe'
     },
     {
-      icon: 'el-icon-goods',
+        icon: 'el-icon-goods',
         title: 'Other',
         url: '/Other'
     }
 ]
+
+export default {
+    httpUrl,
+    navData
+}

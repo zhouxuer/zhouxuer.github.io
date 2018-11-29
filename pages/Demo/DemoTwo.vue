@@ -1,20 +1,6 @@
 <template>
   <div class="box">
-    <div class="demo-nav">
-      <el-menu
-        :default-active="$route.path"
-        class="el-menu-demo"
-        mode="horizontal"
-        router
-      >
-      <el-menu-item index="/Demo/DemoOne">Demo01</el-menu-item>
-      <el-menu-item index="/Demo/DemoTwo">Demo02</el-menu-item>
-      <el-menu-item index="/Demo/DemoThree">Demo03</el-menu-item>
-      <el-menu-item index="/Demo/DemoFour">Demo04</el-menu-item>
-      <el-menu-item index="/Demo/DemoFive">Demo05</el-menu-item>
-      <el-menu-item index="/Demo/DemoSix">Demo06</el-menu-item>
-      </el-menu>
-    </div>
+    <DemoNav/>
 
     <div class="demo-content">
 
@@ -59,8 +45,13 @@
 </template>
 
 <script>
+import config from '~/assets/js/config.js'
+import DemoNav from '~/components/DemoNav.vue'
 import axios from 'axios'
   export default {
+    components: {
+    DemoNav
+    },
      data() {
       return {
         dataArr: [],
@@ -71,7 +62,7 @@ import axios from 'axios'
     },
     methods: {
       dataRequest () {
-        axios.get('https://gist.githubusercontent.com/JoshuaYang/37ed2ca102efe190315c94b695e5833e/raw/136ea13c39867b40757625ddd99714f66ff89a13/fakeData.json')
+        axios.get(config.httpUrl)
           .then((res)=>{
             let dataRequestArr = res.data.list
             for (let i in dataRequestArr) {
@@ -119,19 +110,9 @@ import axios from 'axios'
 </script>
 
 <style lang='scss'>
-.demo-nav {
-  background-color: #fff;
-  margin: 20px;
-}
 .demo-content{
   width: 80%;
   margin: 3% auto 5% auto;
-  /*&:after {*/
-    /*content: '';*/
-    /*width: 20px;*/
-    /*height: 80px;*/
-    /*background-color: orangered;*/
-  /*}*/
 }
 .demo-table-expand {
     font-size: 0;
