@@ -53,7 +53,7 @@ export default {
       dataArr: []
     }
   },
-  created () {
+  mounted () {
     this.dataRequest()
   },
   methods: {
@@ -77,7 +77,7 @@ export default {
 
     tableRowClassName ({ row, rowIndex }) {
       let item = row.endDate
-      if (item !== null) {
+      if (item) {
         if (new Date(item).getTime() <= new Date().getTime()) { // 和当前时间作对比
           return 'warning-row'
         }
