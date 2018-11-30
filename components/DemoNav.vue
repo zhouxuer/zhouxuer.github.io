@@ -6,12 +6,12 @@
         mode="horizontal"
         router
       >
-      <el-menu-item index="/Demo/DemoOne">DemoOne</el-menu-item>
-      <el-menu-item index="/Demo/DemoTwo">DemoTwo</el-menu-item>
-      <el-menu-item index="/Demo/DemoThree">DemoThree</el-menu-item>
-      <el-menu-item index="/Demo/DemoFour">DemoFour</el-menu-item>
-      <el-menu-item index="/Demo/DemoFive">DemoFive</el-menu-item>
-      <el-menu-item index="/Demo/DemoSix">DemoSix</el-menu-item>
+        <el-menu-item index="/Demo/DemoOne">DemoOne</el-menu-item>
+        <el-menu-item index="/Demo/DemoTwo">DemoTwo</el-menu-item>
+        <el-menu-item index="/Demo/DemoThree">DemoThree</el-menu-item>
+        <el-menu-item index="/Demo/DemoFour">DemoFour</el-menu-item>
+        <el-menu-item index="/Demo/DemoFive">DemoFive</el-menu-item>
+        <el-menu-item index="/Demo/DemoSix">DemoSix</el-menu-item>
       </el-menu>  
     </div>
 </template>

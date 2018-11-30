@@ -49,16 +49,16 @@ export default {
       if (this.dataValue !== '') {
         this.listArr.push({ // 数组追加对象
           title: this.dataValue
-        })
-        this.dataValue = ''
+        });
+        this.dataValue = '';
       }
     },
     deleteData (dataValue) { // 删除数据
-      let index = this.listArr.indexOf(dataValue) // 方法可返回某个指定的字符串值在字符串中首次出现的位置。
-      this.listArr.splice(index, 1) // 删除此下标对应的一个元素
+      let index = this.listArr.indexOf(dataValue); // 方法可返回某个指定的字符串值在字符串中首次出现的位置。
+      this.listArr.splice(index, 1); // 删除此下标对应的一个元素
     },
     deleteAll () { // 清除数据
-      this.listArr = []
+      this.listArr = [];
     }
   }
 }

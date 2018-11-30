@@ -3,9 +3,8 @@
     <DemoNav/>
 
       <el-table
-        :data="dataArr"
-        style="width: 80%;margin: 3% auto 5% auto;"
-        :row-class-name="tableRowClassName"
+        :data = "dataArr"
+        :row-class-name = "tableRowClassName"
       >
         <el-table-column type="expand">
           <template slot-scope="props">
@@ -40,10 +39,10 @@
 </template>
 
 <script>
-import config from '~/assets/js/config.js'
-import DemoNav from '~/components/DemoNav.vue'
-import axios from 'axios'
-import moment from 'moment'
+import config from '~/assets/js/config.js';
+import DemoNav from '~/components/DemoNav.vue';
+import axios from 'axios';
+import moment from 'moment';
 
 export default {
   components: {
@@ -55,36 +54,32 @@ export default {
     }
   },
   created () {
-    this.dataRequest()
+    this.dataRequest();
   },
   methods: {
     dataRequest () {
       axios.get(config.httpUrl)
-        .then((res)=>{
-            
-          let dataRequestArr = res.data.list
-          for (let i in dataRequestArr) {
-            let item = dataRequestArr[i]
-            item.password = item.password.replace(/./g,"*")
-
+        .then((res)=>{ 
+          let dataRequestArr = res.data.list;
+          for (let item of dataRequestArr) {
+            item.password = item.password.replace(/./g,"*");
             if (item.startDate || item.endDate) {
-              item.startDate = moment(item.startDate).format('YYYY-MM-DD')
-              item.endDate = moment(item.endDate).format('YYYY-MM-DD')
+              item.startDate = moment(item.startDate).format('YYYY-MM-DD');
+              item.endDate = moment(item.endDate).format('YYYY-MM-DD');
             }
-
-            this.dataArr = dataRequestArr
-          }
+          };
+          this.dataArr = dataRequestArr;
         })
         .catch((err)=>{
           console.log(err);
         });
     },
 
-    tableRowClassName(row) {
-      let item = row.row.endDate
-      if (item != null) {
+    tableRowClassName({row, rowIndex}) {
+      let item = row.endDate;
+      if (item !== null) {
         if ( new Date(item).getTime() <= new Date().getTime()) {  //和当前时间作对比
-          return 'warning-row'
+          return 'warning-row';
         }
       }
     }
@@ -93,7 +88,11 @@ export default {
 </script>
 
 <style lang='scss'>
-  .el-table .warning-row {
+.el-table {
+  width: 80%;
+  margin: 3% auto 5% auto;
+  .warning-row {
     background: #fde9d8;
   }
+}
 </style>
