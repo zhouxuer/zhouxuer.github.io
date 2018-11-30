@@ -1,4 +1,4 @@
-const httpUrl = 'https://gist.githubusercontent.com/JoshuaYang/37ed2ca102efe190315c94b695e5833e/raw/136ea13c39867b40757625ddd99714f66ff89a13/fakeData.json'
+const httpUrl = 'http://api.orzy.me/'
 const navData = [
   {
     icon: 'el-icon-menu',
