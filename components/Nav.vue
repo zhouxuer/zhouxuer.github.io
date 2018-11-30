@@ -35,14 +35,13 @@
 
 <script>
 import config from '~/assets/js/config.js'
-  export default {
-    data () {
-      return {
-        config: config.navData
-      }
+export default {
+  data () {
+    return {
+      config: config.navData
     }
   }
-  
+}
 </script>
 
 <style scoped lang="scss">

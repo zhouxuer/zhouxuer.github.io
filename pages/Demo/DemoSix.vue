@@ -10,11 +10,11 @@
 
 <script>
 import DemoNav from '~/components/DemoNav.vue'
-  export default {
-    components: {
+export default {
+  components: {
     DemoNav
-    }
-    }
+  }
+}
 </script>
 
 <style scoped lang='scss'>

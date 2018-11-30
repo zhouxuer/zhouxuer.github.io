@@ -39,10 +39,10 @@
 </template>
 
 <script>
-import config from '~/assets/js/config.js';
-import DemoNav from '~/components/DemoNav.vue';
-import axios from 'axios';
-import moment from 'moment';
+import config from '~/assets/js/config.js'
+import DemoNav from '~/components/DemoNav.vue'
+import axios from 'axios'
+import moment from 'moment'
 
 export default {
   components: {
@@ -50,36 +50,36 @@ export default {
   },
   data () {
     return {
-      dataArr: [],
+      dataArr: []
     }
   },
   created () {
-    this.dataRequest();
+    this.dataRequest()
   },
   methods: {
     dataRequest () {
       axios.get(config.httpUrl)
-        .then((res)=>{ 
-          let dataRequestArr = res.data.list;
+        .then((res) => {
+          let dataRequestArr = res.data.list
           for (let item of dataRequestArr) {
-            item.password = item.password.replace(/./g,"*");
+            item.password = item.password.replace(/./g, '*')
             if (item.startDate || item.endDate) {
-              item.startDate = moment(item.startDate).format('YYYY-MM-DD');
-              item.endDate = moment(item.endDate).format('YYYY-MM-DD');
+              item.startDate = moment(item.startDate).format('YYYY-MM-DD')
+              item.endDate = moment(item.endDate).format('YYYY-MM-DD')
             }
           };
-          this.dataArr = dataRequestArr;
+          this.dataArr = dataRequestArr
         })
-        .catch((err)=>{
-          console.log(err);
-        });
+        .catch((err) => {
+          console.log(err)
+        })
     },
 
-    tableRowClassName({row, rowIndex}) {
-      let item = row.endDate;
+    tableRowClassName ({ row, rowIndex }) {
+      let item = row.endDate
       if (item !== null) {
-        if ( new Date(item).getTime() <= new Date().getTime()) {  //和当前时间作对比
-          return 'warning-row';
+        if (new Date(item).getTime() <= new Date().getTime()) { // 和当前时间作对比
+          return 'warning-row'
         }
       }
     }
@@ -92,7 +92,7 @@ export default {
   width: 80%;
   margin: 3% auto 5% auto;
   .warning-row {
-    background: #fde9d8;
+    background: #ffe2ef;
   }
 }
 </style>

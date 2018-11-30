@@ -6,12 +6,12 @@
 
 <script>
 import DemoNav from '~/components/DemoNav.vue'
-  export default {
-    layout: 'default',
-    components: {
+export default {
+  layout: 'default',
+  components: {
     DemoNav
-    }
-    }
+  }
+}
 </script>
 
 <style scoped lang='scss'>
