@@ -1,4 +1,4 @@
-const httpUrl = 'http://api.orzy.me/'
+const httpUrl = 'http://api.orzy.me/exercise/fakes'
 const navData = [
   {
     icon: 'el-icon-menu',

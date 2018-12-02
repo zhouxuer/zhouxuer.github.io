@@ -3,7 +3,7 @@
     <DemoNav/>
 
     <div class="content">
-      <el-button class="new-btn" type="success" @click="dialogVisible = true">
+      <el-button class="new-btn" type="success" @click="dialogFormVisible = true">
         <i class="el-icon-circle-plus-outline"></i>
         新增数据</el-button>
       <el-table
@@ -12,7 +12,7 @@
       >
         <el-table-column type="expand">
           <template slot-scope="props">
-            comment 
+            comment
             <span>{{ props.row.comment }}</span>
           </template>
         </el-table-column>
@@ -32,7 +32,7 @@
           label="startDate"
           prop="startDate">
         </el-table-column>
-        
+
         <el-table-column
           label="endDate"
           prop="endDate">
@@ -42,40 +42,41 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="open4"><i class="el-icon-edit"></i></el-button>
+              @click="changeDataRequest(scope.$index, scope.row)"><i class="el-icon-edit"></i></el-button>
             <el-button
               size="mini"
               type="danger"
-              @click="open2"><i class="el-icon-delete"></i></el-button>
+              @click="deleteDataRequest"><i class="el-icon-delete"></i></el-button>
           </template>
         </el-table-column>
       </el-table>
 
-      <el-dialog
-        title="新增数据"
-        :visible.sync="dialogVisible"
-        width="30%"
-        :before-close="handleClose">
-        <p class="new-data">
-          <span>port</span>
-          <input/>
-        </p>
-        <p class="new-data">
-          <span>password</span>
-          <input/>
-        </p>
-        <p class="new-data">
-          <span>startDate</span>
-          <input/>
-        </p>
-        <p class="new-data">
-          <span>endDate</span>
-          <input/>
-        </p>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-        </span>
+      <el-dialog :title="formName && formName.id ? '编辑' : '新增' " :visible.sync="dialogFormVisible">
+        <el-form ref="formName" :model="formName" label-width="80px">
+          <el-form-item label="port">
+            <el-input v-model="formName.port"></el-input>
+          </el-form-item>
+          <el-form-item label="password">
+            <el-input v-model="formName.password"></el-input>
+          </el-form-item>
+          <el-form-item label="comment">
+            <el-input v-model="formName.comment"></el-input>
+          </el-form-item>
+          <el-form-item label="startDate">
+            <el-col :span="11">
+              <el-date-picker type="date" placeholder="选择日期" v-model="formName.startDate" style="width: 100%;"></el-date-picker>
+            </el-col>
+          </el-form-item>
+          <el-form-item label="endDate">
+            <el-col :span="11">
+              <el-date-picker type="date" placeholder="选择日期" v-model="formName.endDate" style="width: 100%;"></el-date-picker>
+            </el-col>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="newDataRequest('formName')">确 定</el-button>
+        </div>
       </el-dialog>
     </div>
   </div>
@@ -94,7 +95,15 @@ export default {
   data () {
     return {
       dataArr: [],
-      dialogVisible: false
+      dialogFormVisible: false,
+      formName: {
+        port: '',
+        region: '',
+        startDate: '',
+        endDate: '',
+        comment: ''
+      },
+      formLabelWidth: '120px'
     }
   },
   mounted () {
@@ -103,7 +112,7 @@ export default {
   methods: {
     // 数据展示方法
     dataRequest () {
-      axios.get(config.httpUrl + 'exercise/fakes')
+      axios.get(config.httpUrl)
         .then((res) => {
           let dataRequestArr = res.data.list
           for (let item of dataRequestArr) {
@@ -131,95 +140,33 @@ export default {
       }
     },
     // 新增数据
-    handleClose (done) {
-      this.$confirm('确认关闭？')
-        .then(_ => {
-          done()
-        })
-        .catch(_ => {})
-    },
-    open3 () {
-      const h = this.$createElement
-      this.$msgbox({
-        title: '新增数据',
-        message: h('div', { style: 'text-align: center' }, [
-          h('p', { style: 'width: 300px; height: 30px; margin: 10px auto' }, [
-            h('span', null, 'port'),
-            h('input', { style: 'width: 250px; height: 30px' }, '')
-          ]),
-          h('p', { style: 'width: 300px; height: 30px; margin: 10px auto' }, [
-            h('span', null, 'port'),
-            h('input', { style: 'width: 250px; height: 30px' }, '')
-          ]),
-          h('p', { style: 'width: 300px; height: 30px; margin: 10px auto' }, [
-            h('span', null, 'port'),
-            h('input', { style: 'width: 250px; height: 30px' }, '')
-          ]),
-          h('p', { style: 'width: 300px; height: 30px; margin: 10px auto' }, [
-            h('span', null, 'port'),
-            h('input', { style: 'width: 250px; height: 30px' }, '')
-          ])
-        ]),
-        inputPlaceholder: '1111',
-        showCancelButton: true,
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        beforeClose: (action, instance, done) => {
-          if (action === 'confirm') {
-            instance.confirmButtonLoading = true
-            instance.confirmButtonText = '执行中...'
-            setTimeout(() => {
-              done()
-              setTimeout(() => {
-                instance.confirmButtonLoading = false
-              }, 300)
-            }, 3000)
-          } else {
-            done()
-          }
-        }
-      }).then(action => {
-        this.$message({
-          type: 'info',
-          message: 'action: ' + action
-        })
+    newDataRequest (formName) {
+      this.dialogFormVisible = false
+      axios.post(config.httpUrl, {
+        port: this.formName.port,
+        region: this.formName.region,
+        comment: this.formName.comment,
+        startDate: this.formName.startDate,
+        endDate: this.formName.endDate
       })
+        .then((res) => {
+          // console.log(res)
+          this.$refs[formName].resetFields()
+          this.dataRequest()
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
     // 编辑数据
-    open4 () {
-      const h = this.$createElement
-      this.$msgbox({
-        title: '消息',
-        message: h('p', null, [
-          h('span', null, '内容可以是 '),
-          h('i', { style: 'color: teal' }, 'VNode')
-        ]),
-        showCancelButton: true,
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        beforeClose: (action, instance, done) => {
-          if (action === 'confirm') {
-            instance.confirmButtonLoading = true
-            instance.confirmButtonText = '执行中...'
-            setTimeout(() => {
-              done()
-              setTimeout(() => {
-                instance.confirmButtonLoading = false
-              }, 300)
-            }, 3000)
-          } else {
-            done()
-          }
-        }
-      }).then(action => {
-        this.$message({
-          type: 'info',
-          message: 'action: ' + action
-        })
-      })
+    changeDataRequest (index, row) {
+      this.formName = Object.assign({}, row)
+      this.dialogFormVisible = true
+      // let item = row.endDate
+      console.log(row)
     },
     // 删除数据方法
-    open2 () {
+    deleteDataRequest () {
       this.$confirm('此操作将永久删除此数据, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -241,6 +188,9 @@ export default {
 </script>
 
 <style lang='scss'>
+  .line {
+    text-align: center;
+  }
 .content {
   width: 80%;
   margin: 3% auto 5% auto;
