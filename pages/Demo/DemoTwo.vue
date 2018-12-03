@@ -3,7 +3,7 @@
     <DemoNav/>
 
     <div class="content">
-      <el-button class="new-btn" type="success" @click="newDataBtn">
+      <el-button class="new-btn" type="success" @click="addDataBtn">
         <i class="el-icon-circle-plus-outline"></i>
         新增数据</el-button>
       <el-table
@@ -42,40 +42,40 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="changeData(scope.$index, scope.row)"><i class="el-icon-edit"></i></el-button>
+              @click="updateDataBtn(scope.$index, scope.row)"><i class="el-icon-edit"></i></el-button>
             <el-button
               size="mini"
               type="danger"
-              @click="deleteDataRequest(scope.$index, scope.row)"><i class="el-icon-delete"></i></el-button>
+              @click="deleteData(scope.$index, scope.row)"><i class="el-icon-delete"></i></el-button>
           </template>
         </el-table-column>
       </el-table>
 
-      <el-dialog :title="formName && formName._id ? '编辑' : '新增' " :visible.sync="dialogFormVisible">
-        <el-form ref="formName" :model="formName" label-width="80px">
+      <el-dialog :title="formData && formData._id ? '编辑' : '新增' " :visible.sync="dialogFormVisible">
+        <el-form ref="formData" :model="formData" label-width="80px">
           <el-form-item label="port">
-            <el-input v-model="formName.port" placeholder="请输入port"></el-input>
+            <el-input v-model="formData.port" placeholder="请输入port"></el-input>
           </el-form-item>
           <el-form-item label="password">
-            <el-input v-model="formName.password" placeholder="请输入password" type="string"></el-input>
+            <el-input v-model="formData.password" placeholder="请输入password" type="string"></el-input>
           </el-form-item>
           <el-form-item label="startDate">
             <el-col :span="11">
-              <el-date-picker type="date" placeholder="选择开始时间" v-model="formName.startDate"></el-date-picker>
+              <el-date-picker type="date" placeholder="选择开始时间" v-model="formData.startDate"></el-date-picker>
             </el-col>
           </el-form-item>
           <el-form-item label="endDate">
             <el-col :span="12">
-              <el-date-picker type="date" placeholder="选择结束时间" v-model="formName.endDate"></el-date-picker>
+              <el-date-picker type="date" placeholder="选择结束时间" v-model="formData.endDate"></el-date-picker>
             </el-col>
           </el-form-item>
           <el-form-item label="comment">
-            <el-input v-model="formName.comment" placeholder="请输入comment"></el-input>
+            <el-input v-model="formData.comment" placeholder="请输入comment"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="formName && formName._id ? changeDataRequest('formName') : newDataRequest('formName') ">确 定</el-button>
+          <el-button type="primary" @click="formData && formData._id ? updateData('formData') : addData('formData') ">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -96,7 +96,7 @@ export default {
     return {
       dataArr: [],
       dialogFormVisible: false,
-      formName: {
+      formData: {
         port: '',
         password: '',
         startDate: '',
@@ -107,15 +107,15 @@ export default {
     }
   },
   mounted () {
-    this.dataRequest()
+    this.querydata()
   },
   methods: {
     // 数据展示
-    dataRequest () {
+    querydata () {
       axios.get(config.httpUrl)
         .then(res => {
-          let dataRequestArr = res.data.list
-          for (let item of dataRequestArr) {
+          let dataArr = res.data.list
+          for (let item of dataArr) {
             if (item.password) {
               item.password = item.password.replace(/./g, '*')
             }
@@ -124,7 +124,7 @@ export default {
               item.endDate = moment(item.endDate).format('YYYY-MM-DD')
             }
           };
-          this.dataArr = dataRequestArr
+          this.dataArr = dataArr
         })
         .catch(err => {
           console.log(err)
@@ -140,22 +140,16 @@ export default {
       }
     },
     // 新增数据按钮事件
-    newDataBtn () {
-      this.formName = {}
+    addDataBtn () {
+      this.formData = {}
       this.dialogFormVisible = true
     },
     // 新增数据网络请求
-    newDataRequest (formName) {
-      this.dialogFormVisible = false
-      axios.post(config.httpUrl, {
-        port: this.formName.port,
-        password: this.formName.password,
-        comment: this.formName.comment,
-        startDate: this.formName.startDate,
-        endDate: this.formName.endDate
-      })
+    addData (formData) {
+      axios.post(config.httpUrl, this.formData)
         .then(res => {
-          this.dataRequest()
+          this.dialogFormVisible = false
+          this.querydata()
           this.$message({
             type: 'success',
             message: '添加成功！'
@@ -170,22 +164,16 @@ export default {
         })
     },
     // 编辑数据按钮事件
-    changeData (index, row) {
-      this.formName = Object.assign({}, row)
+    updateDataBtn (index, row) {
+      this.formData = Object.assign({}, row)
       this.dialogFormVisible = true
     },
     // 编辑数据网络请求
-    changeDataRequest (formName) {
-      this.dialogFormVisible = false
-      axios.put(config.httpUrl + '/' + this.formName._id, {
-        port: this.formName.port,
-        password: this.formName.password,
-        comment: this.formName.comment,
-        startDate: this.formName.startDate,
-        endDate: this.formName.endDate
-      })
+    updateData (formData) {
+      axios.put(config.httpUrl + '/' + this.formData._id, this.formData)
         .then(res => {
-          this.dataRequest()
+          this.dialogFormVisible = false
+          this.querydata()
           this.$message({
             type: 'success',
             message: '修改成功！'
@@ -196,7 +184,7 @@ export default {
         })
     },
     // 删除数据方法
-    deleteDataRequest (index, row) {
+    deleteData (index, row) {
       let item = Object.assign({}, row)
       this.$confirm('此操作将永久删除此数据, 是否继续?', '提示', {
         confirmButtonText: '确定',
@@ -205,7 +193,7 @@ export default {
       }).then(() => {
         axios.delete(config.httpUrl + '/' + item._id)
           .then(res => {
-            this.dataRequest()
+            this.querydata()
             this.$message({
               type: 'success',
               message: '删除成功！'
