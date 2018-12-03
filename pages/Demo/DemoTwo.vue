@@ -3,7 +3,7 @@
     <DemoNav/>
 
     <div class="content">
-      <el-button class="new-btn" type="success" @click="dialogFormVisible = true">
+      <el-button class="new-btn" type="success" @click="newDataBtn">
         <i class="el-icon-circle-plus-outline"></i>
         新增数据</el-button>
       <el-table
@@ -125,7 +125,6 @@ export default {
             }
           };
           this.dataArr = dataRequestArr
-          this.formName = {}
         })
         .catch(err => {
           console.log(err)
@@ -139,6 +138,11 @@ export default {
           return 'warning-row'
         }
       }
+    },
+    // 新增数据按钮事件
+    newDataBtn () {
+      this.formName = {}
+      this.dialogFormVisible = true
     },
     // 新增数据网络请求
     newDataRequest (formName) {
