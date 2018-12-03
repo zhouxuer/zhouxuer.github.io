@@ -42,40 +42,40 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="changeDataRequest(scope.$index, scope.row)"><i class="el-icon-edit"></i></el-button>
+              @click="changeData(scope.$index, scope.row)"><i class="el-icon-edit"></i></el-button>
             <el-button
               size="mini"
               type="danger"
-              @click="deleteDataRequest"><i class="el-icon-delete"></i></el-button>
+              @click="deleteDataRequest(scope.$index, scope.row)"><i class="el-icon-delete"></i></el-button>
           </template>
         </el-table-column>
       </el-table>
 
-      <el-dialog :title="formName && formName.id ? '编辑' : '新增' " :visible.sync="dialogFormVisible">
+      <el-dialog :title="formName && formName._id ? '编辑' : '新增' " :visible.sync="dialogFormVisible">
         <el-form ref="formName" :model="formName" label-width="80px">
           <el-form-item label="port">
-            <el-input v-model="formName.port"></el-input>
+            <el-input v-model="formName.port" placeholder="请输入port"></el-input>
           </el-form-item>
           <el-form-item label="password">
-            <el-input v-model="formName.password"></el-input>
-          </el-form-item>
-          <el-form-item label="comment">
-            <el-input v-model="formName.comment"></el-input>
+            <el-input v-model="formName.password" placeholder="请输入password" type="string"></el-input>
           </el-form-item>
           <el-form-item label="startDate">
             <el-col :span="11">
-              <el-date-picker type="date" placeholder="选择日期" v-model="formName.startDate" style="width: 100%;"></el-date-picker>
+              <el-date-picker type="date" placeholder="选择开始时间" v-model="formName.startDate"></el-date-picker>
             </el-col>
           </el-form-item>
           <el-form-item label="endDate">
-            <el-col :span="11">
-              <el-date-picker type="date" placeholder="选择日期" v-model="formName.endDate" style="width: 100%;"></el-date-picker>
+            <el-col :span="12">
+              <el-date-picker type="date" placeholder="选择结束时间" v-model="formName.endDate"></el-date-picker>
             </el-col>
+          </el-form-item>
+          <el-form-item label="comment">
+            <el-input v-model="formName.comment" placeholder="请输入comment"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="newDataRequest('formName')">确 定</el-button>
+          <el-button type="primary" @click="formName && formName._id ? changeDataRequest('formName') : newDataRequest('formName') ">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -98,7 +98,7 @@ export default {
       dialogFormVisible: false,
       formName: {
         port: '',
-        region: '',
+        password: '',
         startDate: '',
         endDate: '',
         comment: ''
@@ -110,10 +110,10 @@ export default {
     this.dataRequest()
   },
   methods: {
-    // 数据展示方法
+    // 数据展示
     dataRequest () {
       axios.get(config.httpUrl)
-        .then((res) => {
+        .then(res => {
           let dataRequestArr = res.data.list
           for (let item of dataRequestArr) {
             if (item.password) {
@@ -125,8 +125,9 @@ export default {
             }
           };
           this.dataArr = dataRequestArr
+          this.formName = {}
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err)
         })
     },
@@ -139,47 +140,84 @@ export default {
         }
       }
     },
-    // 新增数据
+    // 新增数据网络请求
     newDataRequest (formName) {
       this.dialogFormVisible = false
       axios.post(config.httpUrl, {
         port: this.formName.port,
-        region: this.formName.region,
+        password: this.formName.password,
         comment: this.formName.comment,
         startDate: this.formName.startDate,
         endDate: this.formName.endDate
       })
-        .then((res) => {
-          // console.log(res)
-          this.$refs[formName].resetFields()
+        .then(res => {
           this.dataRequest()
+          this.$message({
+            type: 'success',
+            message: '添加成功！'
+          })
         })
-        .catch((err) => {
+        .catch(err => {
+          console.log(err)
+          this.$message({
+            type: 'info',
+            message: '添加失败！'
+          })
+        })
+    },
+    // 编辑数据按钮事件
+    changeData (index, row) {
+      this.formName = Object.assign({}, row)
+      this.dialogFormVisible = true
+    },
+    // 编辑数据网络请求
+    changeDataRequest (formName) {
+      this.dialogFormVisible = false
+      axios.put(config.httpUrl + '/' + this.formName._id, {
+        port: this.formName.port,
+        password: this.formName.password,
+        comment: this.formName.comment,
+        startDate: this.formName.startDate,
+        endDate: this.formName.endDate
+      })
+        .then(res => {
+          this.dataRequest()
+          this.$message({
+            type: 'success',
+            message: '修改成功！'
+          })
+        })
+        .catch(err => {
           console.log(err)
         })
     },
-    // 编辑数据
-    changeDataRequest (index, row) {
-      this.formName = Object.assign({}, row)
-      this.dialogFormVisible = true
-      // let item = row.endDate
-      console.log(row)
-    },
     // 删除数据方法
-    deleteDataRequest () {
+    deleteDataRequest (index, row) {
+      let item = Object.assign({}, row)
       this.$confirm('此操作将永久删除此数据, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
-        })
+        axios.delete(config.httpUrl + '/' + item._id)
+          .then(res => {
+            this.dataRequest()
+            this.$message({
+              type: 'success',
+              message: '删除成功！'
+            })
+          })
+          .catch(err => {
+            console.log(err)
+            this.$message({
+              type: 'info',
+              message: '删除失败！'
+            })
+          })
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消删除'
+          message: '已取消删除！'
         })
       })
     }
@@ -188,9 +226,6 @@ export default {
 </script>
 
 <style lang='scss'>
-  .line {
-    text-align: center;
-  }
 .content {
   width: 80%;
   margin: 3% auto 5% auto;
@@ -201,17 +236,8 @@ export default {
   .warning-row {
     background: #ffe2ef;
   }
-  .new-data {
-    width: 300px;
-    height: 30px;
-    margin: 10px auto;
-    span {
-      padding-left: 5px;
-    }
-    input {
-      width: 250px;
-      height: 30px;
-    }
+  .el-dialog {
+    width: 30%;
   }
 }
 </style>
