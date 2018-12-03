@@ -3,7 +3,7 @@
     <DemoNav/>
 
     <div class="content">
-      <el-button class="new-btn" type="success" @click="addDataBtn">
+      <el-button class="new-btn" type="success" @click="addDataBtnOnClick">
         <i class="el-icon-circle-plus-outline"></i>
         新增数据</el-button>
       <el-table
@@ -42,7 +42,7 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="updateDataBtn(scope.$index, scope.row)"><i class="el-icon-edit"></i></el-button>
+              @click="updateDataBtnOnClick(scope.$index, scope.row)"><i class="el-icon-edit"></i></el-button>
             <el-button
               size="mini"
               type="danger"
@@ -107,11 +107,11 @@ export default {
     }
   },
   mounted () {
-    this.querydata()
+    this.queryData()
   },
   methods: {
     // 数据展示
-    querydata () {
+    queryData () {
       axios.get(config.httpUrl)
         .then(res => {
           let dataArr = res.data.list
@@ -147,7 +147,7 @@ export default {
       }
     },
     // 新增数据按钮事件
-    addDataBtn () {
+    addDataBtnOnClick () {
       this.formData = {}
       this.dialogFormVisible = true
     },
@@ -156,7 +156,7 @@ export default {
       axios.post(config.httpUrl, this.formData)
         .then(res => {
           this.dialogFormVisible = false
-          this.querydata()
+          this.queryData()
           this.$message({
             type: 'success',
             message: '添加成功！'
@@ -171,7 +171,7 @@ export default {
         })
     },
     // 编辑数据按钮事件
-    updateDataBtn (index, row) {
+    updateDataBtnOnClick (index, row) {
       this.formData = Object.assign({}, row)
       this.dialogFormVisible = true
     },
@@ -180,7 +180,7 @@ export default {
       axios.put(`${config.httpUrl}/${this.formData._id}`, this.formData)
         .then(res => {
           this.dialogFormVisible = false
-          this.querydata()
+          this.queryData()
           this.$message({
             type: 'success',
             message: '修改成功！'
@@ -200,7 +200,7 @@ export default {
       }).then(() => {
         axios.delete(`${config.httpUrl}/${item._id}`)
           .then(res => {
-            this.querydata()
+            this.queryData()
             this.$message({
               type: 'success',
               message: '删除成功！'
