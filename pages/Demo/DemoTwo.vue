@@ -115,16 +115,23 @@ export default {
       axios.get(config.httpUrl)
         .then(res => {
           let dataArr = res.data.list
-          for (let item of dataArr) {
-            if (item.password) {
-              item.password = item.password.replace(/./g, '*')
-            }
-            if (item.startDate || item.endDate) {
-              item.startDate = moment(item.startDate).format('YYYY-MM-DD')
-              item.endDate = moment(item.endDate).format('YYYY-MM-DD')
-            }
-          };
-          this.dataArr = dataArr
+
+          // for (let item of dataArr) {
+          //   if (item.password) {
+          //     item.password = item.password.replace(/./g, '*')
+          //   }
+          //   if (item.startDate || item.endDate) {
+          //     item.startDate = moment(item.startDate).format('YYYY-MM-DD')
+          //     item.endDate = moment(item.endDate).format('YYYY-MM-DD')
+          //   }
+          // }
+
+          this.dataArr = dataArr.map(item => ({
+            ...item,
+            password: item.password && item.password.replace(/./g, '*'),
+            startDate: item.startDate && moment(item.startDate).format('YYYY-MM-DD'),
+            endDate: item.endDate && moment(item.endDate).format('YYYY-MM-DD')
+          }))
         })
         .catch(err => {
           console.log(err)
@@ -170,7 +177,7 @@ export default {
     },
     // 编辑数据网络请求
     updateData (formData) {
-      axios.put(config.httpUrl + '/' + this.formData._id, this.formData)
+      axios.put(`${config.httpUrl}/${this.formData._id}`, this.formData)
         .then(res => {
           this.dialogFormVisible = false
           this.querydata()
@@ -191,7 +198,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        axios.delete(config.httpUrl + '/' + item._id)
+        axios.delete(`${config.httpUrl}/${item._id}`)
           .then(res => {
             this.querydata()
             this.$message({
