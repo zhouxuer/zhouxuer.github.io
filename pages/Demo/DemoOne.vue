@@ -10,7 +10,7 @@
         class="content-data"
         placeholder="请输入数据"
         v-model="dataValue"
-        @keyup.enter="addData"
+        @keyup.native="addData"
       />
 
       <!--v-show="!listArr.length"(表达式，布尔值，样式隐藏显示)-->
